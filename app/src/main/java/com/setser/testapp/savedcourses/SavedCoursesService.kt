@@ -1,4 +1,4 @@
-package com.setser.testapp
+package com.setser.testapp.savedcourses
 
 import android.content.SharedPreferences
 
@@ -14,7 +14,7 @@ interface SavedCoursesService {
 }
 
 class PreferencesSavedCoursesService(val sharedPreferences: SharedPreferences) : SavedCoursesService {
-    val REC_SAVED = "savedcourses"
+    val REC_SAVED = "saved_courses"
 
     override fun getCourses(): Collection<String> {
         return sharedPreferences.getStringSet(REC_SAVED, LinkedHashSet<String>())
