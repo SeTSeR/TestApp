@@ -1,14 +1,19 @@
-package com.setser.testapp
+package com.setser.testapp.search
 
 import android.app.SearchManager
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.setser.testapp.R
+import com.setser.testapp.dummy.DummyContent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SearchResultFragment.OnListFragmentInteractionListener {
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

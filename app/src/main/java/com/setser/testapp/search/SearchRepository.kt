@@ -1,4 +1,4 @@
-package com.setser.testapp
+package com.setser.testapp.search
 
 import com.setser.testapp.api.StepikApiService
 import com.setser.testapp.model.Result

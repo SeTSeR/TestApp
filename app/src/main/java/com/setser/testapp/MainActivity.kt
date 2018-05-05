@@ -12,7 +12,7 @@ import com.setser.testapp.savedcourses.SavedCourses
 
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.ComponentName
-
+import com.setser.testapp.search.SearchActivity
 
 
 class MainActivity : AppCompatActivity(), SavedCourseFragment.OnListFragmentInteractionListener {
