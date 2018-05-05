@@ -11,11 +11,9 @@ import retrofit2.http.Query
 interface StepikApiService {
 
     @GET("/api/search-results")
-    fun search(@Query("q") query: String): Observable<Result>
+    fun search(@Query("p") page: Int,
+               @Query("q") query: String): Observable<Result>
 
-    /**
-     * Companion object to create the GithubApiService
-     */
     companion object Factory {
         fun create(): StepikApiService {
             val retrofit = Retrofit.Builder()
@@ -24,7 +22,7 @@ interface StepikApiService {
                     .baseUrl("https://stepik.org/")
                     .build()
 
-            return retrofit.create(StepikApiService::class.java);
+            return retrofit.create(StepikApiService::class.java)
         }
     }
 }
