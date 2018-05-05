@@ -1,14 +1,19 @@
 package com.setser.testapp
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
 import android.view.Menu
-import android.view.MenuItem
 import com.setser.testapp.R.id.app_bar_search
 import com.setser.testapp.savedcourses.SavedCourseFragment
 import com.setser.testapp.savedcourses.SavedCourses
 
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.ComponentName
+
+
 
 class MainActivity : AppCompatActivity(), SavedCourseFragment.OnListFragmentInteractionListener {
     override fun onListFragmentInteraction(item: SavedCourses.SavedCourse?) {
@@ -24,13 +29,11 @@ class MainActivity : AppCompatActivity(), SavedCourseFragment.OnListFragmentInte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            app_bar_search -> false
-            else -> super.onOptionsItemSelected(item)
-        }
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(app_bar_search).actionView as? SearchView
+        searchView!!.setSearchableInfo(
+                searchManager.getSearchableInfo(ComponentName(this, SearchActivity::class.java)))
+        return true
     }
 }
