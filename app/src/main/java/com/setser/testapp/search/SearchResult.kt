@@ -1,4 +1,4 @@
-package com.setser.testapp.model
+package com.setser.testapp.search
 
 import com.google.gson.annotations.SerializedName
 
@@ -9,13 +9,13 @@ data class Page (
 )
 
 data class Course (
-    val id: Long,
-    val title: String,
-    val course: Long,
-    val course_owner: Long,
-    val course_authors: List<Long>,
-    val type: String,
-    val score: Double
+        val id: Long,
+        val course: Long,
+        val course_title: String,
+        val course_owner: Long,
+        val course_authors: List<Long>,
+        val type: String,
+        val score: Double
 )
 
 data class Result (val meta: Page,

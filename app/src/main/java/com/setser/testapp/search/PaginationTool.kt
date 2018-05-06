@@ -2,23 +2,26 @@ package com.setser.testapp.search
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.setser.testapp.BackgroundExecutor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class PaginationTool {
-    val ITEMS_PER_PAGE = 20
-    val MAX_ATTEMPTS = 3
+typealias PagingListener<T> = (Int) -> Observable<List<T>>
 
-    fun <T> paging(recyclerView: RecyclerView, pagingListener: PagingListener<T>): Observable<List<T>>? {
+object PaginationTool {
+    const val ITEMS_PER_PAGE = 20
+    private const val MAX_ATTEMPTS = 3
+
+    fun <T> paging(recyclerView: RecyclerView, pagingListener: PagingListener<T>): Observable<List<T>> {
         return getScrollObservable(recyclerView)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .distinctUntilChanged()
                 .observeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
                 .switchMap({
                     offset -> getPagingObservable(pagingListener,
-                        pagingListener.onNextPage(offset), 0,
+                        pagingListener(offset), 0,
                         offset)
                 })
     }
@@ -37,26 +40,28 @@ class PaginationTool {
                     }
                 }
             }
+            recyclerView.addOnScrollListener(onScrollListener)
+            val adapter = recyclerView.adapter as SearchResultRecyclerViewAdapter
+            if(adapter.isEmpty()) {
+                subscriber.onNext(adapter.itemCount)
+            }
         })
     }
 
-    fun <T> getPagingObservable(pagingListener: PagingListener<T>,
-                                observable: Observable<List<T>>,
-                                attemptToRetry: Int,
-                                offset: Int): Observable<List<T>> {
+    private fun <T> getPagingObservable(pagingListener: PagingListener<T>,
+                                        observable: Observable<List<T>>,
+                                        attemptToRetry: Int,
+                                        offset: Int): Observable<List<T>> {
         return observable.onErrorResumeNext({throwable: Throwable ->
             if(attemptToRetry < MAX_ATTEMPTS) {
                 getPagingObservable(pagingListener,
-                        pagingListener.onNextPage(offset),
+                        pagingListener(offset),
                         attemptToRetry + 1,
                         offset)
             } else {
                 Observable.empty<List<T>>()
+                throw throwable
             }
         })
     }
-}
-
-interface PagingListener<T> {
-    fun onNextPage(offset: Int): Observable<List<T>>
 }

@@ -1,7 +1,6 @@
 package com.setser.testapp.search
 
 import com.setser.testapp.api.StepikApiService
-import com.setser.testapp.model.Result
 import io.reactivex.Observable
 
 object SearchRepositoryProvider {
