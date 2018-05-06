@@ -4,19 +4,29 @@ import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
+import android.widget.Toast
 import com.setser.testapp.R.id.app_bar_search
 import com.setser.testapp.savedcourses.SavedCourseFragment
 import com.setser.testapp.savedcourses.SavedCourses
+import com.setser.testapp.savedcourses.SavedCoursesService
 import com.setser.testapp.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), SavedCourseFragment.OnListFragmentInteractionListener {
     override fun onListFragmentInteraction(item: SavedCourses.SavedCourse?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if(item != null) {
+            val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+            val savedCoursesService = SavedCoursesService.create(preferences)
+            savedCoursesService.removeCourse(item.title)
+            Toast.makeText(this,
+                    "Course removed successfully :)", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +36,6 @@ class MainActivity : AppCompatActivity(), SavedCourseFragment.OnListFragmentInte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager

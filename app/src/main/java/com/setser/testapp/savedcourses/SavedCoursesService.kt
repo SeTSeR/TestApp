@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 
 interface SavedCoursesService {
     fun addCourse(title: String)
+    fun removeCourse(title: String)
     fun getCourses(): Collection<String>
 
     companion object Factory {
@@ -23,8 +24,12 @@ class PreferencesSavedCoursesService(private val sharedPreferences: SharedPrefer
     override fun addCourse(title: String) {
         val courses = sharedPreferences.getStringSet(saved, LinkedHashSet<String>())
         courses.add(title)
-        val editor = sharedPreferences.edit()
-        editor.putStringSet(saved, courses)
-        editor.apply()
+        sharedPreferences.edit().putStringSet(saved, courses).apply()
+    }
+
+    override fun removeCourse(title: String) {
+        val courses = sharedPreferences.getStringSet(saved, LinkedHashSet<String>())
+        courses.remove(title)
+        sharedPreferences.edit().putStringSet(saved, courses).apply()
     }
 }
