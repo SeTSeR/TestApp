@@ -3,6 +3,7 @@ package com.setser.testapp.search
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -28,8 +29,6 @@ class SearchResultFragment : Fragment() {
     private lateinit var pagingSubscription: Disposable
     private lateinit var recyclerViewAdapter: SearchResultRecyclerViewAdapter
 
-    private val COURSES_PER_PAGE = 20
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_searchresult_list, container, false)
@@ -37,11 +36,13 @@ class SearchResultFragment : Fragment() {
 
         // Set the adapter
         if (view is RecyclerView) {
+            val linearLayoutManager = LinearLayoutManager(context)
             with(view) {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = linearLayoutManager
                 layoutManager.supportsPredictiveItemAnimations()
                 adapter = recyclerViewAdapter
                 isSaveEnabled = true
+                addItemDecoration(DividerItemDecoration(context, linearLayoutManager.orientation))
             }
             if(!recyclerViewAdapter.allElementsLoaded) {
                 var fetchedPageNum = 0

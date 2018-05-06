@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_savedcourse.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class SavedCourseRecyclerViewAdapter(
-        private val mValues: List<SavedCourse>,
+        private val mValues: MutableList<SavedCourse>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<SavedCourseRecyclerViewAdapter.ViewHolder>() {
 
@@ -50,7 +50,13 @@ class SavedCourseRecyclerViewAdapter(
         }
     }
 
+
     override fun getItemCount(): Int = mValues.size
+
+    fun updateItems(items: List<SavedCourse>) {
+        mValues.clear()
+        mValues.addAll(items)
+    }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mContentView: TextView = mView.content

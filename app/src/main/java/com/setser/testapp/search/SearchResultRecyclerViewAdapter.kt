@@ -41,7 +41,7 @@ class SearchResultRecyclerViewAdapter(
 
     fun setOnListFragmentInteractionListener(mListener: OnListFragmentInteractionListener?) {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Course
+            val item = v.tag as? Course
             mListener?.onListFragmentInteraction(item)
         }
     }
@@ -65,9 +65,9 @@ class SearchResultRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val viewHolder = holder
-        viewHolder.mContentView.text = mValues[position].course_title
+        holder.mContentView.text = mValues[position].course_title
         with(holder.mView) {
+            tag = mValues[position]
             setOnClickListener(mOnClickListener)
         }
     }

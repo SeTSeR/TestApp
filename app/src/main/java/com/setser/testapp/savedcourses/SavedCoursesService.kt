@@ -13,18 +13,18 @@ interface SavedCoursesService {
     }
 }
 
-class PreferencesSavedCoursesService(val sharedPreferences: SharedPreferences) : SavedCoursesService {
-    val REC_SAVED = "saved_courses"
+class PreferencesSavedCoursesService(private val sharedPreferences: SharedPreferences) : SavedCoursesService {
+    private val saved = "saved_courses"
 
     override fun getCourses(): Collection<String> {
-        return sharedPreferences.getStringSet(REC_SAVED, LinkedHashSet<String>())
+        return sharedPreferences.getStringSet(saved, LinkedHashSet<String>())
     }
 
     override fun addCourse(title: String) {
-        val courses = sharedPreferences.getStringSet(REC_SAVED, LinkedHashSet<String>())
+        val courses = sharedPreferences.getStringSet(saved, LinkedHashSet<String>())
         courses.add(title)
         val editor = sharedPreferences.edit()
-        editor.putStringSet(REC_SAVED, courses)
+        editor.putStringSet(saved, courses)
         editor.apply()
     }
 }

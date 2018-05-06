@@ -1,6 +1,6 @@
 package com.setser.testapp.savedcourses
 
-class SavedCourses(val savedCoursesService: SavedCoursesService) {
+class SavedCourses(private val savedCoursesService: SavedCoursesService) {
 
     fun getItems(): List<SavedCourse> {
         return savedCoursesService.getCourses().toMutableList()
