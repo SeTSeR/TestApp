@@ -2,13 +2,13 @@ package com.setser.testapp.search
 
 import com.google.gson.annotations.SerializedName
 
-data class Page (
-    val page: Int,
-    val has_next: Boolean,
-    val has_previous: Boolean
+data class Page(
+        val page: Int,
+        val has_next: Boolean,
+        val has_previous: Boolean
 )
 
-data class Course (
+data class Course(
         val id: Long,
         val course: Long,
         val course_title: String,
@@ -18,6 +18,6 @@ data class Course (
         val score: Double
 )
 
-data class Result (val meta: Page,
-                   @SerializedName("search-results")
-                   val search_results: List<Course>)
+data class Result(val meta: Page,
+                  @SerializedName("search-results")
+                  val search_results: List<Course>)

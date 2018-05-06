@@ -44,14 +44,14 @@ class SearchResultFragment : Fragment() {
                 isSaveEnabled = true
                 addItemDecoration(DividerItemDecoration(context, linearLayoutManager.orientation))
             }
-            if(!recyclerViewAdapter.allElementsLoaded) {
+            if (!recyclerViewAdapter.allElementsLoaded) {
                 var fetchedPageNum = 0
                 pagingSubscription = PaginationTool
                         .paging(view, {
                             val searchRepository = SearchRepositoryProvider.provideSearchRepository()
                             val parentActivity = activity as? SearchActivity
                             val query = parentActivity?.query
-                            if(query == null) Observable.empty<List<Course>>()
+                            if (query == null) Observable.empty<List<Course>>()
                             else {
                                 fetchedPageNum += 1
                                 searchRepository.searchCourses(fetchedPageNum - 1, query)
@@ -60,18 +60,16 @@ class SearchResultFragment : Fragment() {
                                                 item.target_type == "course"
                                             }
                                         }
-                                }
+                            }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            items ->
+                        .subscribe({ items ->
                             Log.d("Arrived", "${items.size} items")
                             recyclerViewAdapter.addNewItems(items)
                             recyclerViewAdapter.notifyItemInserted(
                                     recyclerViewAdapter.itemCount - items.size
                             )
-                        }, {
-                            error ->
+                        }, { error ->
                             Toast.makeText(activity, "Could not download list of courses :(",
                                     Toast.LENGTH_SHORT).show()
                             error.printStackTrace()
@@ -102,7 +100,7 @@ class SearchResultFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        if(!pagingSubscription.isDisposed) {
+        if (!pagingSubscription.isDisposed) {
             pagingSubscription.dispose()
         }
         super.onDestroyView()

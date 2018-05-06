@@ -20,7 +20,7 @@ class SearchResultRecyclerViewAdapter(
     private var mOnClickListener: View.OnClickListener
 
     var allElementsLoaded: Boolean
-    private set
+        private set
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -47,7 +47,7 @@ class SearchResultRecyclerViewAdapter(
     }
 
     fun addNewItems(items: List<Course>) {
-        if(items.isEmpty()) {
+        if (items.isEmpty()) {
             allElementsLoaded = true
             return
         }

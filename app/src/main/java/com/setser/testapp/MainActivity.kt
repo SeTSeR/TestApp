@@ -1,6 +1,7 @@
 package com.setser.testapp
 
 import android.app.SearchManager
+import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -9,10 +10,8 @@ import android.view.Menu
 import com.setser.testapp.R.id.app_bar_search
 import com.setser.testapp.savedcourses.SavedCourseFragment
 import com.setser.testapp.savedcourses.SavedCourses
-
-import kotlinx.android.synthetic.main.activity_main.*
-import android.content.ComponentName
 import com.setser.testapp.search.SearchActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), SavedCourseFragment.OnListFragmentInteractionListener {
