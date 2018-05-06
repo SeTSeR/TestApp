@@ -9,8 +9,8 @@ object SearchRepositoryProvider {
     }
 }
 
-class SearchRepository(val apiService: StepikApiService) {
+class SearchRepository(private val apiService: StepikApiService) {
     fun searchCourses(page: Int, query: String): Observable<Result> {
-        return apiService.search(page, query)
+        return apiService.search(query, page)
     }
 }

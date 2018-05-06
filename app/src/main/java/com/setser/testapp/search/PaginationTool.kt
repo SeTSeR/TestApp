@@ -6,6 +6,9 @@ import android.util.Log
 import com.setser.testapp.BackgroundExecutor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
+import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 
 typealias PagingListener<T> = (Int) -> Observable<List<T>>
@@ -42,6 +45,9 @@ object PaginationTool {
             }
             recyclerView.addOnScrollListener(onScrollListener)
             val adapter = recyclerView.adapter as SearchResultRecyclerViewAdapter
+            subscriber.setDisposable(Disposables.fromAction {
+                recyclerView.removeOnScrollListener(onScrollListener)
+            })
             if(adapter.isEmpty()) {
                 subscriber.onNext(adapter.itemCount)
             }

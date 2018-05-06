@@ -14,7 +14,7 @@ data class Course (
         val course_title: String,
         val course_owner: Long,
         val course_authors: List<Long>,
-        val type: String,
+        val target_type: String,
         val score: Double
 )
 

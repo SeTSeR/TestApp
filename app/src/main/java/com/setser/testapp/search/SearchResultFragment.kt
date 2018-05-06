@@ -44,19 +44,22 @@ class SearchResultFragment : Fragment() {
                 isSaveEnabled = true
             }
             if(!recyclerViewAdapter.allElementsLoaded) {
+                var fetchedPageNum = 0
                 pagingSubscription = PaginationTool
-                        .paging(view, {offset ->
-                            val pageNum = (offset + COURSES_PER_PAGE - 1) / COURSES_PER_PAGE
+                        .paging(view, {
                             val searchRepository = SearchRepositoryProvider.provideSearchRepository()
                             val parentActivity = activity as? SearchActivity
                             val query = parentActivity?.query
                             if(query == null) Observable.empty<List<Course>>()
-                            else searchRepository.searchCourses(pageNum, query)
-                                    .map {
-                                        result ->
-                                        Log.d("Result", "${result.search_results.size} items")
-                                        result.search_results
-                                    }
+                            else {
+                                fetchedPageNum += 1
+                                searchRepository.searchCourses(fetchedPageNum - 1, query)
+                                        .map { result ->
+                                            result.search_results.filter { item ->
+                                                item.target_type == "course"
+                                            }
+                                        }
+                                }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
@@ -68,9 +71,9 @@ class SearchResultFragment : Fragment() {
                             )
                         }, {
                             error ->
-                            Toast.makeText(activity, "Could not download list of courses :("
-                                    , Toast.LENGTH_SHORT).show()
-//                            error.printStackTrace()
+                            Toast.makeText(activity, "Could not download list of courses :(",
+                                    Toast.LENGTH_SHORT).show()
+                            error.printStackTrace()
                         })
             }
         }
